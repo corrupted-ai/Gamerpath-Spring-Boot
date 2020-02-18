@@ -17,8 +17,10 @@ public class Post implements Comparable<Post>{
 	@Id
 	@Generated(value = "com.acme.generator.CodeGen")
 	private String id;
-	
+	private int score;
 	private String postinfo;
+	private List<String> upvoted = new LinkedList<>();
+	private List<String> downvoted = new LinkedList<>();
 	
 	@DBRef
 	private User user;
@@ -27,7 +29,7 @@ public class Post implements Comparable<Post>{
 	private List<Reply> replies = new LinkedList<>();
 
 	private String datetime;
-
+	private List<String> tags = new LinkedList<>(); 
 	public Post() {
 		LocalDateTime myDateObj = LocalDateTime.now();
 		DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
@@ -73,11 +75,39 @@ public class Post implements Comparable<Post>{
 	public void setReplies(Reply reply) {
 		this.replies.add(reply);
 	}
+	
 
-	public Post(String postinfo, User user, List<Reply> replies) {
-		this.postinfo = postinfo;
-		this.user = user;
-		this.replies = replies;
+	public List<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
+	}
+	
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+	public List<String> getUpvoted() {
+		return upvoted;
+	}
+
+	public void setUpvoted(String upvote) {
+		this.upvoted.add(upvote);
+		setScore(upvoted.size()-downvoted.size());
+	}
+
+	public List<String> getDownvoted() {
+		return downvoted;
+	}
+
+	public void setDownvoted(String downvote) {
+		this.downvoted.add(downvote);
+		setScore(upvoted.size()-downvoted.size());
 	}
 
 	
@@ -97,6 +127,8 @@ public class Post implements Comparable<Post>{
 	
 	
 	
+	
+
 	@Override
 	public int compareTo(Post o) {
 		String d1 = this.datetime;

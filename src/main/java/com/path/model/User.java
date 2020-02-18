@@ -1,5 +1,4 @@
 package com.path.model;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,7 +13,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 @Document(collection = "users")
-public class User {
+public class User implements Comparable<User>{
 	
 	@Id
 	@Generated(value = "com.acme.generator.CodeGen")
@@ -26,9 +25,7 @@ public class User {
 	private String gender;
 	private int score;
 	
-	@DBRef
-	List<Post> posts =new LinkedList<>();
-	
+	List<String> posts =new LinkedList<>();
 	List<String> sent=new LinkedList<>();
 	List<String> receive = new LinkedList<>();
 	List<String> friends = new LinkedList<>();
@@ -70,12 +67,17 @@ public class User {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public List<Post> getPosts() {
+	
+	public List<String> getPosts() {
 		return posts;
 	}
-	public void setPosts(Post post) {
-		this.posts.add(post);
+
+	public void setPosts(String postid) {
+		this.posts.add(postid);
 	}
+
+
+
 	public List<String> getFriends() {
 		return friends;
 	}
@@ -112,5 +114,16 @@ public class User {
 	public void setGamertag(String gamertag) {
 		this.gamertag = gamertag;
 	}
+
+
+
+	@Override
+	public int compareTo(User o) {
+		return o.getScore()-this.getScore();
+	}
+
+
+
+	
 	
 }
